@@ -1,10 +1,9 @@
 export default (docs, query) => {
   const result = docs
-    .filter((doc) => doc
-      .text
-      .split(' ')
-      .filter((word) => word === query)
-      .length > 0)
+    .filter(doc => {
+        const words = doc.text.match(/\w+/g);
+        return words && words.includes(query);
+    })
     .map((doc) => doc.id);
   return result;
 };
