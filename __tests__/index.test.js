@@ -9,8 +9,8 @@ const createDocs = () => {
   return docs;
 };
 
-test('step1', () => {
+test('steps 1, 2, 3', () => {
   const docs = createDocs();
-  expect(search(docs, 'shoot')).toEqual(['doc1', 'doc2']);
+  expect(search(docs, 'shoot')).toEqual(['doc2', 'doc1']);
   expect(search([], 'shoot')).toEqual([]);
 });
