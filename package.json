@@ -4,15 +4,12 @@
   "description": "[![Actions Status](https://github.com/peperopuripuri/algorithms-project-69/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/peperopuripuri/algorithms-project-69/actions)",
   "main": "index.js",
   "scripts": {
-    "test": "npx jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "debug": "^4.3.4",
-    "lodash": "^4.17.21"
-  },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
     "eslint": "^8.53.0",
