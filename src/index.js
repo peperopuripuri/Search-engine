@@ -1,14 +1,15 @@
 export default (docs, query) => {
+  const queryWords = query.toLowerCase().match(/\w+/g) || [];
+  
   const result = docs
-    .filter(doc => {
-        const words = doc.text.toLowerCase().match(/\w+/g);
-        return words.includes(query.toLowerCase());
+    .map(doc => {
+      const words = doc.text.toLowerCase().match(/\w+/g) || [];
+      const relevance = words.filter(word => queryWords.includes(word)).length;
+      return { id: doc.id, relevance };
     })
-    .sort((doc1, doc2) => {
-        const count1 = (doc1.text.match(new RegExp(query, "ig")) || []).length;
-        const count2 = (doc2.text.match(new RegExp(query, "ig")) || []).length; 
-        return count2 - count1;
-      })
-    .map((doc) => doc.id);
+    .filter(doc => doc.relevance > 0)
+    .sort((doc1, doc2) => doc2.relevance - doc1.relevance)
+    .map(doc => doc.id);
+
   return result;
-};
+};  
