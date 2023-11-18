@@ -1,16 +1,16 @@
 export default (docs, query) => {
   const queryWords = query.toLowerCase().match(/\w+/g) || [];
-  
+
   const invertedIndex = {};
   const docWordCounts = {};
   const totalDocs = docs.length;
 
-  docs.forEach(doc => {
+  docs.forEach((doc) => {
     const words = doc.text.toLowerCase().match(/\w+/g) || [];
     docWordCounts[doc.id] = words.length;
 
-    let uniqueWords = {};
-    words.forEach(word => {
+    const uniqueWords = {};
+    words.forEach((word) => {
       if (invertedIndex[word]) {
         if (!invertedIndex[word].includes(doc.id)) {
           invertedIndex[word].push(doc.id);
@@ -21,7 +21,7 @@ export default (docs, query) => {
       uniqueWords[word] = (uniqueWords[word] || 0) + 1;
     });
 
-    Object.keys(uniqueWords).forEach(word => {
+    Object.keys(uniqueWords).forEach((word) => {
       const tf = uniqueWords[word] / words.length;
       const idf = Math.log(totalDocs / invertedIndex[word].length);
       const tfidf = tf * idf;
@@ -31,10 +31,10 @@ export default (docs, query) => {
   });
 
   const relevanceMap = {};
-  queryWords.forEach(queryWord => {
+  queryWords.forEach((queryWord) => {
     if (invertedIndex[queryWord]) {
-      invertedIndex[queryWord].forEach(docId => {
-        relevanceMap[docId] = (relevanceMap[docId] || 0) + docs.find(doc => doc.id === docId).tfidf[queryWord];
+      invertedIndex[queryWord].forEach((docId) => {
+        relevanceMap[docId] = (relevanceMap[docId] || 0) + docs.find((doc) => doc.id === docId).tfidf[queryWord];
       });
     }
   });
